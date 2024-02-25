@@ -1,0 +1,24 @@
+{
+  "name": "Mirza",
+  "description": "This bot will demote admin if they will ban 3 users in 1 hour!",
+  "repository": "https://github.com/MirzaElite/securitybot",
+  "keywords": ["telegram", "bot"],
+  "env": {
+    "API_ID": {
+      "description": "Your Telegram API ID",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Your Telegram API hash",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Your Telegram bot token",
+      "required": true
+    },
+    "LOG_ID": {
+      "description": "Chat ID of the log chat",
+      "required": true
+    }
+  }
+}
