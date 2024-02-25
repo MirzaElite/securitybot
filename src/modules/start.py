@@ -46,6 +46,3 @@ def handle_message(bot: app, message):
             message.reply_text(f"Error demoting user: {e}")
         except Exception as e:
             message.reply_text(f"Unexpected error demoting user: {e}")
-
-app.run()
-print("Bhenkelode Hogya Start Tera Bot")
