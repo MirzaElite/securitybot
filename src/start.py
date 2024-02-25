@@ -1,13 +1,8 @@
 from pyrogram import Client, filters
 from pyrogram.types import Chat
-
+from src import app
 import time
 from pyrogram.errors import FloodWait
-api_id = "29400566"
-api_hash= "8fd30dc496aea7c14cf675f59b74ec6f"  
-bot_token = "7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk"  
-
-app = Client("sex", api_id, api_hash, bot_token)
 
 user_ban_counts = {}
 
