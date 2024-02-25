@@ -4,6 +4,11 @@ import time
 from pyrogram.errors import FloodWait
 
 user_ban_counts = {}
+bot_token = "7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk"
+api_id = 29400566
+api_hash = "8fd30dc496aea7c14cf675f59b74ec6f"
+
+app = Client("my_bot", bot_token=bot_token, api_id=api_id, api_hash=api_hash)
 
 @app.on_message(filters.command("start"))
 async def start(bot: app, message):
