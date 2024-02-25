@@ -8,15 +8,24 @@ user_ban_counts = {}
 admin_ban_counts = {}
 
 @app.on_message(filters.command("start"))
-async def start(bot: app, message):
+async def start(bot, message):
     await message.reply_text("Bot started. Use /admin command to promote users to admin.")
 
 @app.on_message(filters.command("admin"))
-async def admin(bot: app, message):
+async def admin(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
-            await bot.promote_chat_member(message.chat.id, user_id, privileges=ChatPermissions(can_delete_messages=True, can_restrict_members=True, can_invite_users=True, can_pin_messages=True, can_promote_members=False))
+            await bot.promote_chat_member(
+                message.chat.id,
+                user_id,
+                can_change_info=False,
+                can_delete_messages=True,
+                can_restrict_members=True,
+                can_invite_users=True,
+                can_pin_messages=True,
+                can_promote_members=False
+            )
             await message.reply_text("User promoted to admin successfully.")
         except Exception as e:
             await message.reply_text(f"Error promoting user to admin: {e}")
@@ -24,11 +33,20 @@ async def admin(bot: app, message):
         await message.reply_text("Usage: /admin <user_id>")
 
 @app.on_message(filters.command("demote"))
-async def demote(bot: app, message):
+async def demote(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
-            await bot.promote_chat_member(message.chat.id, user_id, can_promote_members=False)
+            await bot.promote_chat_member(
+                message.chat.id,
+                user_id,
+                can_change_info=False,
+                can_delete_messages=False,
+                can_restrict_members=False,
+                can_invite_users=False,
+                can_pin_messages=False,
+                can_promote_members=False
+            )
             await message.reply_text("Admin demoted successfully.")
         except Exception as e:
             await message.reply_text(f"Error demoting admin: {e}")
@@ -36,7 +54,7 @@ async def demote(bot: app, message):
         await message.reply_text("Usage: /demote <user_id>")
 
 @app.on_message(filters.command("kick"))
-async def kick(bot: app, message):
+async def kick(bot, message):
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         try:
@@ -48,7 +66,7 @@ async def kick(bot: app, message):
         await message.reply_text("Reply to a user's message to kick them.")
 
 @app.on_message(filters.command("ban"))
-async def ban(bot: app, message):
+async def ban(bot, message):
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         try:
@@ -60,7 +78,7 @@ async def ban(bot: app, message):
         await message.reply_text("Reply to a user's message to ban them.")
 
 @app.on_message(filters.command)
-async def handle_message(bot: app, message):
+async def handle_message(bot, message):
     user_id = message.from_user.id
     chat_id = message.chat.id
 
@@ -75,7 +93,16 @@ async def handle_message(bot: app, message):
 
     if user_ban_counts[user_id]["count"] >= 3:
         try:
-            await bot.promote_chat_member(chat_id, user_id, can_change_info=False, can_delete_messages=False, can_restrict_members=False, can_invite_users=False, can_pin_messages=False, can_promote_members=False)
+            await bot.promote_chat_member(
+                chat_id,
+                user_id,
+                can_change_info=False,
+                can_delete_messages=False,
+                can_restrict_members=False,
+                can_invite_users=False,
+                can_pin_messages=False,
+                can_promote_members=False
+            )
             await message.reply_text("User demoted due to excessive bans.")
 
             user_ban_counts[user_id]["count"] = 0
@@ -93,7 +120,16 @@ async def handle_message(bot: app, message):
 
         if admin_ban_counts[user_id]["count"] >= 3:
             try:
-                await bot.promote_chat_member(chat_id, user_id, can_change_info=False, can_delete_messages=False, can_restrict_members=False, can_invite_users=False, can_pin_messages=False, can_promote_members=False)
+                await bot.promote_chat_member(
+                    chat_id,
+                    user_id,
+                    can_change_info=False,
+                    can_delete_messages=False,
+                    can_restrict_members=False,
+                    can_invite_users=False,
+                    can_pin_messages=False,
+                    can_promote_members=False
+                )
                 await message.reply_text("Admin demoted due to excessive bans.")
 
                 admin_ban_counts[user_id]["count"] = 0
