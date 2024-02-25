@@ -14,12 +14,17 @@ async def start(bot, message):
 @app.on_message(filters.command("admin"))
 async def admin(bot, message):
     if len(message.command) == 2:
-        user_id = message.command[1]
+        user_id = int(message.command[1])
         try:
             await bot.promote_chat_member(
                 message.chat.id,
                 user_id,
-                can_manage_chat=True
+                can_change_info=True,
+                can_delete_messages=True,
+                can_restrict_members=True,
+                can_invite_users=True,
+                can_pin_messages=True,
+                can_promote_members=False
             )
             await message.reply_text("User promoted to admin successfully.")
         except Exception as e:
