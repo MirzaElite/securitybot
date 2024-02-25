@@ -53,3 +53,4 @@ def handle_message(bot: app, message):
             message.reply_text(f"Unexpected error demoting user: {e}")
 
 app.run()
+print("Bhenkelode Hogya Start Tera Bot")
