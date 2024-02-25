@@ -3,6 +3,7 @@ from pyrogram.types import ChatPermissions
 
 from src import app 
 
+user_ban_counts = {}
 
 @app.on_message(filters.command("start"))
 def start(client, message):
