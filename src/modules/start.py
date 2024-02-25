@@ -8,7 +8,8 @@ bot_token = "7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk"
 api_id = 29400566
 api_hash = "8fd30dc496aea7c14cf675f59b74ec6f"
 
-app = Client("sex", bot_token, api_id, api_hash)
+app = Client("sex", bot_token, int(api_id), api_hash)
+
 
 @app.on_message(filters.command("start"))
 async def start(bot, message):
