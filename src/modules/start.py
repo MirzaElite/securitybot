@@ -13,7 +13,7 @@ async def start(bot: app, message):
 @app.on_message(filters.command("admin"))
 async def admin(bot: app, message):
     if len(message.command) == 2:
-        user_id = message.command[1]
+        user_id = int(message.command[1])
         try:
             await bot.promote_chat_member(message.chat.id, user_id, privileges=ChatPrivileges(can_delete_messages=True, can_restrict_members=True, can_invite_users=True, can_pin_messages=True, can_promote_members=False))
             await message.reply_text("User promoted to admin successfully.")
@@ -38,7 +38,7 @@ async def handle_message(bot: app, message):
 
     if user_ban_counts[user_id]["count"] >= 3:
         try:
-            await bot.promote_chat_member(chat_id, user_id, can_change_info=False, can_delete_messages=False, can_restrict_members=False, can_invite_users=False, can_pin_messages=False, can_promote_members=False)
+            await bot.restrict_chat_member(chat_id, user_id, permissions=ChatPrivileges(can_delete_messages=False, can_restrict_members=False, can_invite_users=False, can_pin_messages=False, can_promote_members=False))
             await message.reply_text("User demoted due to excessive bans.")
 
             user_ban_counts[user_id]["count"] = 0
