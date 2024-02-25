@@ -1,13 +1,8 @@
 from pyrogram import Client, filters
 from pyrogram.types import ChatPermissions
 
-# Replace 'YOUR_BOT_TOKEN' with your actual bot token
-bot_token = '7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk'
+from src import app 
 
-# Dictionary to store user ban counts
-user_ban_counts = {}
-
-app = Client("my_bot", bot_token=bot_token)
 
 @app.on_message(filters.command("start"))
 def start(client, message):
