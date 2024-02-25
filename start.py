@@ -3,10 +3,9 @@ from pyrogram.types import Chat
 
 import time
 from pyrogram.errors import FloodWait
-
-API_ID = "29400566"
-API_HASH = "8fd30dc496aea7c14cf675f59b74ec6f"  
-BOT_TOKEN = "7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk"  
+api_id = "29400566"
+api_hash= "8fd30dc496aea7c14cf675f59b74ec6f"  
+bot_token = "7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk"  
 
 app = Client("sex", api_id, api_hash, bot_token)
 
