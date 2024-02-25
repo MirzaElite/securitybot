@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import ChatPermissions
 import time
 from pyrogram.errors import FloodWait
+from aiolimiter import AsyncRateLimiter
 
 user_ban_counts = {}
 bot_token = "7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk"
@@ -10,12 +11,14 @@ api_hash = "8fd30dc496aea7c14cf675f59b74ec6f"
 
 app = Client("sex", bot_token, api_id, api_hash)
 
+limiter = AsyncRateLimiter(1)
+
 @app.on_message(filters.command("start"))
-async def start_command(bot, message):
+async def start(bot, message):
     await message.reply_text("Bot started. Use /admin command to promote users to admin.")
 
 @app.on_message(filters.command("admin"))
-async def promote_admin(bot, message):
+async def admin(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
@@ -27,7 +30,7 @@ async def promote_admin(bot, message):
         await message.reply_text("Usage: /admin <user_id>")
 
 @app.on_message(filters.command("demote"))
-async def demote_admin(bot, message):
+async def demote(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
@@ -39,11 +42,12 @@ async def demote_admin(bot, message):
         await message.reply_text("Usage: /demote <user_id>")
 
 @app.on_message(filters.command("ban"))
-async def ban_user(bot, message):
+async def ban(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
-            await bot.kick_chat_member(message.chat.id, user_id)
+            async with limiter:
+                await bot.kick_chat_member(message.chat.id, user_id)
             await message.reply_text("User banned successfully.")
         except Exception as e:
             await message.reply_text(f"Error banning user: {e}")
@@ -51,11 +55,12 @@ async def ban_user(bot, message):
         await message.reply_text("Usage: /ban <user_id>")
 
 @app.on_message(filters.command("kick"))
-async def kick_user(bot, message):
+async def kick(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
-            await bot.kick_chat_member(message.chat.id, user_id, until_date=time.time() + 60)
+            async with limiter:
+                await bot.kick_chat_member(message.chat.id, user_id, until_date=time.time() + 60)
             await message.reply_text("User kicked successfully.")
         except Exception as e:
             await message.reply_text(f"Error kicking user: {e}")
@@ -70,7 +75,7 @@ async def handle_message(bot, message):
     if user_id not in user_ban_counts:
         user_ban_counts[user_id] = {"count": 0, "last_ban": 0}
 
-    if time.time() - user_ban_counts[user_id]["last_ban"] > 3600:  # Reset ban count if last ban was more than 1 hour ago
+    if time.time() - user_ban_counts[user_id]["last_ban"] > 3600:
         user_ban_counts[user_id]["count"] = 0
 
     user_ban_counts[user_id]["count"] += 1
