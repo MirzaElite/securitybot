@@ -22,7 +22,7 @@ def admin(client, message):
     else:
         message.reply_text("Usage: /admin <user_id>")
 
-@app.on_message(filters.text & ~filters.command)
+@app.on_message(filters.text)
 def handle_message(client, message):
     user_id = message.from_user.id
     chat_id = message.chat.id
