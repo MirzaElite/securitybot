@@ -4,12 +4,12 @@ import importlib
 from pyrogram import idle
 
 from src import app, LOGGER
-from src.modules import ALL_MODULES
+from src import ALL_MODULES
 
 
 async def start_bot():
     for all_module in ALL_MODULES:
-        importlib.import_module(f"src.modules.{all_module}")
+        importlib.import_module(f"src.{all_module}")
     LOGGER.info(f"Successfully loaded {len(ALL_MODULES)}.")
 
     LOGGER.info("Bot Started")
