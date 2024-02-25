@@ -8,14 +8,14 @@ bot_token = "7124170275:AAFzQl25c2MVQLACM8DZz7tPOvU6RscnSrk"
 api_id = 29400566
 api_hash = "8fd30dc496aea7c14cf675f59b74ec6f"
 
-app = Client("my_bot", bot_token=bot_token, api_id=api_id, api_hash=api_hash)
+app = Client("sex", bot_token, api_id, api_hash)
 
 @app.on_message(filters.command("start"))
-async def start(bot: app, message):
+async def start_command(bot, message):
     await message.reply_text("Bot started. Use /admin command to promote users to admin.")
 
 @app.on_message(filters.command("admin"))
-async def admin(bot: app, message):
+async def promote_admin(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
@@ -27,7 +27,7 @@ async def admin(bot: app, message):
         await message.reply_text("Usage: /admin <user_id>")
 
 @app.on_message(filters.command("demote"))
-async def demote(bot: app, message):
+async def demote_admin(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
@@ -39,7 +39,7 @@ async def demote(bot: app, message):
         await message.reply_text("Usage: /demote <user_id>")
 
 @app.on_message(filters.command("ban"))
-async def ban(bot: app, message):
+async def ban_user(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
@@ -51,7 +51,7 @@ async def ban(bot: app, message):
         await message.reply_text("Usage: /ban <user_id>")
 
 @app.on_message(filters.command("kick"))
-async def kick(bot: app, message):
+async def kick_user(bot, message):
     if len(message.command) == 2:
         user_id = message.command[1]
         try:
@@ -63,7 +63,7 @@ async def kick(bot: app, message):
         await message.reply_text("Usage: /kick <user_id>")
 
 @app.on_message(filters.command)
-async def handle_message(bot: app, message):
+async def handle_message(bot, message):
     user_id = message.from_user.id
     chat_id = message.chat.id
 
@@ -86,3 +86,5 @@ async def handle_message(bot: app, message):
             await message.reply_text(f"Error demoting user: {e}")
         except Exception as e:
             await message.reply_text(f"Unexpected error demoting user: {e}")
+
+app.run()
